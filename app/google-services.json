@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "264253293325",
+    "project_id": "tokichat-d1bf4",
+    "storage_bucket": "tokichat-d1bf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264253293325:android:424bb160b3dd04c816e644",
+        "android_client_info": {
+          "package_name": "com.tokiapps.tokichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "264253293325-gf1ivli306ronepbqcl3u0lu1m243ste.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0six-1tp7hn1R5uKMd6Z5TyFWS7QaLK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "264253293325-gf1ivli306ronepbqcl3u0lu1m243ste.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
