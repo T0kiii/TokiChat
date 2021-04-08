@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">TokiChat</string>
+    <string name="app_name" translatable="false">TokiChat</string>
+    <string name="introduce_tu_num_de_telef">Introduce tu número de teléfono</string>
+    <string name="introduce_el_cod_sms">Introduce el código del SMS</string>
+    <string name="login">Enviar código de verificación</string>
 </resources>

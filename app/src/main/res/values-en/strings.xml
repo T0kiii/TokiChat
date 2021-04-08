@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="introduce_tu_num_de_telef">Enter your phone number</string>
+    <string name="introduce_el_cod_sms">Enter the SMS code</string>
+    <string name="login">Send verification code</string>
+</resources>
