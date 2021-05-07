@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // ????
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // para limpiar to do lo que tenga encima (por si tenía una activity corriendo, que se muera porque si no el user no podrá loggearse de nuevo)
                 finish();
                 return;
             }

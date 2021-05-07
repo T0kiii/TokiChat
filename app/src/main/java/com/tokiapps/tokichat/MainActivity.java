@@ -25,10 +25,12 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private EditText numTelef, codigoSeguridad;
-    private Button enviar;
-
+    private EditText mPhoneNumber, mCode;
+    private Button mSend;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+
+    String mVerificationId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
         userIsLoggedIn();
 
-        numTelef = findViewById(R.id.txt_num_telef);
-        codigoSeguridad = findViewById(R.id.txt_cod_sms);
-        enviar = findViewById(R.id.btn_login);
+        mPhoneNumber = findViewById(R.id.txt_num_telef);
+        mCode = findViewById(R.id.txt_cod_sms);
+        mSend = findViewById(R.id.btn_login);
 
-        enviar.setOnClickListener(v -> startPhoneNumberVerification());
+        mSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mVerificationId != null){
+                    verfyPhoneNumerWithCode(mVerificationId, mCode.getText().toString()); // PARA CAMBIAR. MIRAR EL VÍDEO
+                }
+                startPhoneNumberVerification();
+            }
+        });
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
@@ -50,9 +60,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onVerificationFailed(@NonNull FirebaseException e) {}
+            public void onVerificationFailed(@NonNull FirebaseException e) {};
+
+            @Override
+            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                super.onCodeSent(mVerificationId, forceResendingToken);
+
+                mVerificationId = verificationId;
+                mSend.setText("Verifica código");
+            }
         };
         // mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void verfyPhoneNumerWithCode(String verificationId, String code){
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        signInWithPhoneAuthCredential(credential);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
@@ -70,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "User is connected", Toast.LENGTH_SHORT).show();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null){
-            startActivity(new Intent((getApplicationContext()), MainActivity.class));
+            startActivity(new Intent((getApplicationContext()), HomeActivity.class));
             finish();
             return;
         }
@@ -78,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startPhoneNumberVerification() {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                numTelef.getText().toString(), 60,
+                mPhoneNumber.getText().toString(), 60,
                 TimeUnit.SECONDS,
                 this,
                 mCallbacks);
