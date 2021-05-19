@@ -29,14 +29,32 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"/>
 
-        <EditText
-            android:id="@+id/editTextPhone"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="Teléfono"
-            android:inputType="phone"/>
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:ccp_autoDetectCountry="true"
+                tools:ccp_contentColor="#fcfdfd"
+                tools:ccp_textSize="20dp"
+                android:layout_marginTop="24dp"/>
+
+            <EditText
+                android:id="@+id/editTextPhone"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:hint="Teléfono"
+                android:inputType="phone"/>
+
+        </LinearLayout>
+        
         <Button
             android:id="@+id/btnSendCode"
             android:layout_width="match_parent"
