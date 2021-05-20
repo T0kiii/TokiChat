@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.CompleteInfoActivity">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+       <com.github.florent37.shapeofview.shapes.ArcView
+           android:layout_width="match_parent"
+           android:layout_height="170dp"
+           app:shape_arc_position="bottom"
+           app:shape_arc_height="20dp"
+           app:shape_arc_cropDirection="outside">
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@color/colorPrimary" />
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="COMPLETA TU INFORMACIÓN"
+               android:textSize="20dp"
+               android:textColor="@color/white"
+               android:gravity="center"
+               android:textStyle="bold"
+               android:layout_marginBottom="50dp"/>
+
+       </com.github.florent37.shapeofview.shapes.ArcView>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:gravity="center_vertical"
+           android:layout_marginRight="20dp"
+           android:layout_marginLeft="20dp"
+           android:layout_marginTop="100dp">
+
+           <ImageView
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:src="@mipmap/ic_launcher_round"
+               android:layout_marginRight="10dp"/>
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/textInputUsername"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:hint="Nombre de usuario" />
+
+           </com.google.android.material.textfield.TextInputLayout>
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImagePhoto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:civ_circle_background_color="@color/white"
+        app:civ_border_color="@color/gray"
+        app:civ_border_width="5dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="90dp" />
+
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="CONFIRMAR"
+        android:layout_gravity="bottom"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

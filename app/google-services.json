@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "264253293325-a676962fm5677ondpe7a1sdr3la82j98.apps.googleusercontent.com",
+          "client_id": "264253293325-uh7uo1nr7uica4klvrokj4hlphroesas.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tokiapps.tokichat",
-            "certificate_hash": "b025512945596d56e8a0fea8923b41af5d1cc238"
+            "certificate_hash": "165b6e8331b379310b1171a121f0143389d6419a"
           }
         },
         {

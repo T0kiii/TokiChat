@@ -4,13 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_recortado"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo_recortado"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TokiChat">
-        <activity android:name=".CodeVerificationActivity"></activity>
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name="com.tokiapps.tokichat.activities.CodeVerificationActivity"></activity>
+        <activity android:name="com.tokiapps.tokichat.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

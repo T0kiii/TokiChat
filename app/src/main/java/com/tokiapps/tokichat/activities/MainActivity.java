@@ -1,4 +1,4 @@
-package com.tokiapps.tokichat;
+package com.tokiapps.tokichat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hbb20.CountryCodePicker;
-
+import com.tokiapps.tokichat.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,22 +29,32 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonSendCode.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 //goToCodeVerificationActivity();
-                goToCodeVerificationActivity();
+                getData();
             }
         });
+
+
     }
 
-    private void getData(){
-
+    private void getData() {
         String code = mCountryCode.getSelectedCountryCodeWithPlus();
         String phone = mEditTextPhone.getText().toString();
-        Toast.makeText(MainActivity.this, "teléfono: " + code + " " + phone, Toast.LENGTH_LONG).show();
+
+        if (phone.equals("")) {
+            Toast.makeText(this, "debe insertar el telefono", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            goToCodeVerificationActivity(code + phone);
+        }
     }
 
-    private void goToCodeVerificationActivity(){
+    private void goToCodeVerificationActivity(String phone) {
+
         Intent intent = new Intent(MainActivity.this, CodeVerificationActivity.class);
+        intent.putExtra("phone", phone);
         startActivity(intent);
+
     }
 }
