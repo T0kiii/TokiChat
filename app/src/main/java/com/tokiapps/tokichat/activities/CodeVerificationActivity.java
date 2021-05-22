@@ -27,7 +27,7 @@ import com.tokiapps.tokichat.providers.UsersProvider;
 
 public class CodeVerificationActivity extends AppCompatActivity {
 
-    Button mButtonCodeVerfication;
+    Button mButtonCodeVerification;
     EditText mEditTextCode;
     TextView mTextViewSMS;
     ProgressBar mProgressBar;
@@ -43,7 +43,7 @@ public class CodeVerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_verification);
 
-        mButtonCodeVerfication = findViewById(R.id.btnCodeVerification);
+        mButtonCodeVerification = findViewById(R.id.btnCodeVerification);
         mEditTextCode = findViewById(R.id.editTextCodeVerification);
         mTextViewSMS = findViewById(R.id.textViewSMS);
         mProgressBar = findViewById(R.id.progressBar);
@@ -55,7 +55,7 @@ public class CodeVerificationActivity extends AppCompatActivity {
 
         mAuthProvider.sendCodeVerification(mExtraPhone, mCallbacks);
 
-        mButtonCodeVerfication.setOnClickListener(new View.OnClickListener() {
+        mButtonCodeVerification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String code = mEditTextCode.getText().toString();
@@ -90,13 +90,13 @@ public class CodeVerificationActivity extends AppCompatActivity {
             mProgressBar.setVisibility(View.GONE);
             mTextViewSMS.setVisibility(View.GONE);
 
-            Toast.makeText(CodeVerificationActivity.this, "Se produjo un error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(CodeVerificationActivity.this, "Verificación fallida: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(verificationId, forceResendingToken);
-            Toast.makeText(CodeVerificationActivity.this, "El codigo se envio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CodeVerificationActivity.this, "El código se ha enviado", Toast.LENGTH_SHORT).show();
             mVerificationId = verificationId;
         }
     };
