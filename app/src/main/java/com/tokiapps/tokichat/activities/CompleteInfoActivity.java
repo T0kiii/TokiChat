@@ -1,6 +1,7 @@
 package com.tokiapps.tokichat.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -49,6 +50,8 @@ public class CompleteInfoActivity extends AppCompatActivity {
     File mImageFile;
     String mUsername = "";
 
+    ProgressDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,9 @@ public class CompleteInfoActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
         mImageProvider = new ImageProvider();
 
+        mDialog = new ProgressDialog(CompleteInfoActivity.this);
+        mDialog.setTitle("Espere un momento");
+        mDialog.setMessage("Guardando informacion");
 
         mOptions = Options.init()
                 .setRequestCode(100)                                           //Request code for activity results
@@ -101,21 +107,30 @@ public class CompleteInfoActivity extends AppCompatActivity {
     }
 
     private void updateUserInfo(String url) {
-        if (!mUsername.equals("")) {
-            User user = new User();
-            user.setUsername(mUsername);
-            user.setId(mAuthProvider.getId());
-            user.setImage(url);
-            mUsersProvider.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(CompleteInfoActivity.this, "La informacion se actualizo correctamente", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
+        User user = new User();
+        user.setUsername(mUsername);
+        user.setId(mAuthProvider.getId());
+        user.setImage(url);
+        mUsersProvider.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                goToHomeActivity();
+            }
+        });
+
+    }
+
+    private void goToHomeActivity() {
+
+        mDialog.dismiss();
+        Toast.makeText(CompleteInfoActivity.this, "La informacion se actualizo correctamente", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(CompleteInfoActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void saveImage() {
+        mDialog.show();
         mImageProvider.save(CompleteInfoActivity.this, mImageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -129,6 +144,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
                     });
                 }
                 else {
+                    mDialog.dismiss();
                     Toast.makeText(CompleteInfoActivity.this, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show();
                 }
             }

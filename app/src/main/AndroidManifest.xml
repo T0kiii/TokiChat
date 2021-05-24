@@ -17,6 +17,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.CompleteInfoActivity"/>
         <activity android:name=".activities.CodeVerificationActivity"/>
         <activity android:name=".activities.MainActivity">

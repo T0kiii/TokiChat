@@ -121,8 +121,21 @@ public class CodeVerificationActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                            else {
-                                goToCompleteInfo();
+                            else if (documentSnapshot.contains("username") && documentSnapshot.contains("image")){
+                                String username = documentSnapshot.getString("username");
+                                String image = documentSnapshot.getString("image");
+
+                                if (username != null && image != null) {
+                                    if (!username.equals("") && !image.equals("")) {
+                                        goToHomeActivity();
+                                    }
+                                    else {
+                                        goToCompleteInfo();
+                                    }
+                                }
+                                else {
+                                    goToCompleteInfo();
+                                }
                             }
                         }
                     });
@@ -135,8 +148,15 @@ public class CodeVerificationActivity extends AppCompatActivity {
         });
     }
 
+    private void goToHomeActivity() {
+        Intent intent = new Intent(CodeVerificationActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     private void goToCompleteInfo() {
         Intent intent = new Intent(CodeVerificationActivity.this, CompleteInfoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

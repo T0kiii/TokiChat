@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import com.hbb20.CountryCodePicker;
 import com.tokiapps.tokichat.R;
+import com.tokiapps.tokichat.providers.AuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     Button mButtonSendCode;
     EditText mEditTextPhone;
     CountryCodePicker mCountryCode;
+
+    AuthProvider mAuthProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +30,23 @@ public class MainActivity extends AppCompatActivity {
         mEditTextPhone = findViewById(R.id.editTextPhone);
         mCountryCode = findViewById(R.id.ccp);
 
+        mAuthProvider = new AuthProvider();
+
         mButtonSendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //goToCodeVerificationActivity();
                 getData();
             }
         });
-
-
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuthProvider.getSessionUser() != null) {
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void getData() {
