@@ -15,7 +15,7 @@
            android:layout_width="match_parent"
            android:layout_height="170dp"
            app:shape_arc_position="bottom"
-           app:shape_arc_height="20dp"
+           app:shape_arc_height="50dp"
            app:shape_arc_cropDirection="outside">
 
            <View
@@ -47,7 +47,7 @@
            <ImageView
                android:layout_width="30dp"
                android:layout_height="30dp"
-               android:src="@mipmap/ic_launcher_round"
+               android:src="@drawable/ic_person_pin"
                android:layout_marginRight="10dp"/>
 
            <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +71,7 @@
         android:id="@+id/circleImagePhoto"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@drawable/ic_person"
         app:civ_circle_background_color="@color/white"
         app:civ_border_color="@color/gray"
         app:civ_border_width="5dp"

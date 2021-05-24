@@ -4,21 +4,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.pix.Options;
 import com.fxn.pix.Pix;
 import com.fxn.utility.PermUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.storage.UploadTask;
 import com.tokiapps.tokichat.R;
 import com.tokiapps.tokichat.models.User;
 import com.tokiapps.tokichat.providers.AuthProvider;
+import com.tokiapps.tokichat.providers.ImageProvider;
 import com.tokiapps.tokichat.providers.UsersProvider;
 
 import java.io.File;
@@ -34,12 +40,14 @@ public class CompleteInfoActivity extends AppCompatActivity {
 
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
+    ImageProvider mImageProvider;
 
     Options mOptions;
 
     ArrayList<String> mReturnValues = new ArrayList<>();
 
     File mImageFile;
+    String mUsername = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
 
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
+        mImageProvider = new ImageProvider();
 
 
         mOptions = Options.init()
@@ -68,7 +77,13 @@ public class CompleteInfoActivity extends AppCompatActivity {
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateUserInfo();
+                mUsername = mTextInputUsername.getText().toString();
+                if (!mUsername.equals("") && mImageFile != null) {
+                    saveImage();
+                }
+                else {
+                    Toast.makeText(CompleteInfoActivity.this, "Debe seleccionar la imagen e ingresar su nombre de usuario", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -85,12 +100,12 @@ public class CompleteInfoActivity extends AppCompatActivity {
         Pix.start(CompleteInfoActivity.this, mOptions);
     }
 
-    private void updateUserInfo() {
-        String username = mTextInputUsername.getText().toString();
-        if (!username.equals("")) {
+    private void updateUserInfo(String url) {
+        if (!mUsername.equals("")) {
             User user = new User();
-            user.setUsername(username);
+            user.setUsername(mUsername);
             user.setId(mAuthProvider.getId());
+            user.setImage(url);
             mUsersProvider.update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -100,6 +115,25 @@ public class CompleteInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void saveImage() {
+        mImageProvider.save(CompleteInfoActivity.this, mImageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    mImageProvider.getDownloadUri().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = uri.toString();
+                            updateUserInfo(url);
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(CompleteInfoActivity.this, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

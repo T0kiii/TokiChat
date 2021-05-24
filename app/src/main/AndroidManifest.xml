@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tokiapps.tokichat">
+    package="com.tokiapps.tokichat"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:requestLegacyExternalStorage="true"/>
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo_recortado"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_recortado"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.tokiapps.tokichat.activities.CodeVerificationActivity"></activity>
-        <activity android:name="com.tokiapps.tokichat.activities.MainActivity">
+        <activity android:name=".activities.CompleteInfoActivity"/>
+        <activity android:name=".activities.CodeVerificationActivity"/>
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

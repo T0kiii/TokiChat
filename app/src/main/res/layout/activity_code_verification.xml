@@ -20,7 +20,7 @@
                 android:layout_height="200dp"
                 android:elevation="4dp"
                 app:shape_arc_cropDirection="outside"
-                app:shape_arc_height="20dp"
+                app:shape_arc_height="50dp"
                 app:shape_arc_position="bottom"
                 >
 
@@ -32,7 +32,7 @@
                 <ImageView
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/logo_tokichat"
+                    android:src="@drawable/logo"
                     android:layout_gravity="center" />
 
             </com.github.florent37.shapeofview.shapes.ArcView>
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ingresa el codigo que te enviamos"
+                android:text="Ingresa el codigo enviado"
                 android:textSize="22dp"
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@color/colorPrimary"
