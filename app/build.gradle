@@ -38,6 +38,9 @@ dependencies {
     implementation  'com.fxn769:pix:1.5.3'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
+    implementation 'com.github.rahimlis:badgedtablayout:v1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
     testImplementation 'junit:junit:4.12'

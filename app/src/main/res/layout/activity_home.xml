@@ -7,12 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".activities.HomeActivity">
 
-    <Button
-        android:id="@+id/btnSignOut"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cerrar sesion"
-        android:gravity="center"
-        android:layout_gravity="center" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mt_hint="Texto de busqueda"
+                app:mt_searchBarColor="@color/colorPrimary"
+                app:mt_placeholder="TokiChat"
+                app:mt_placeholderColor="@color/white"
+                app:mt_searchIconTint="@color/white"
+                app:mt_textColor="@color/gray"
+                app:mt_hintColor="@color/gray"
+                app:mt_backIconTint="@color/gray"
+                app:mt_menuIconTint="@color/white"
+                app:mt_leftTextSelectorTint="@color/gray"
+                />
+
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/grayLight"
+            app:tabTextColor="@color/grayLight" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

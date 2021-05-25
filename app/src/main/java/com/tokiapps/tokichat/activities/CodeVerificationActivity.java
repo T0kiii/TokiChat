@@ -137,6 +137,9 @@ public class CodeVerificationActivity extends AppCompatActivity {
                                     goToCompleteInfo();
                                 }
                             }
+                            else {
+                                goToCompleteInfo();
+                            }
                         }
                     });
 
