@@ -68,12 +68,19 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.itemSignOut) {
                     signOut();
+                }else if (item.getItemId() == R.id.itemProfile) {
+                    goToProfile();
                 }
                 return true;
             }
         });
 
         mAuthProvider = new AuthProvider();
+    }
+
+    private void goToProfile() {
+        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     private void setupTabIcon() {
