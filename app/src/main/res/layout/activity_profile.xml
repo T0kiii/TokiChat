@@ -29,6 +29,7 @@
                 />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabSelectImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_camera_white"
@@ -123,7 +124,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¡Hey, Estoy usando TokiChat!"
+                    android:text="¡Hey, estoy usando TokiChat!"
                     android:textColor="@color/black"
                     android:textSize="15dp"/>
 
