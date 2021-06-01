@@ -17,6 +17,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.ChatActivity"></activity>
         <activity
             android:name=".activities.ProfileActivity"
             android:parentActivityName=".activities.HomeActivity" />

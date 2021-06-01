@@ -1,6 +1,7 @@
 package com.tokiapps.tokichat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.tokiapps.tokichat.R;
+import com.tokiapps.tokichat.activities.ChatActivity;
 import com.tokiapps.tokichat.models.User;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +43,18 @@ public class ContactsAdapter extends FirestoreRecyclerAdapter<User, ContactsAdap
         else {
             holder.circleImageUser.setImageResource(R.drawable.ic_person);
         }
+
+        holder.myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToChatActivity();
+            }
+        });
+    }
+
+    private void goToChatActivity() {
+        Intent intent = new Intent(context, ChatActivity.class);
+        context.startActivity(intent);
     }
 
     @NonNull
@@ -55,14 +69,16 @@ public class ContactsAdapter extends FirestoreRecyclerAdapter<User, ContactsAdap
         TextView textViewUsername;
         TextView textViewInfo;
         CircleImageView circleImageUser;
+        View myView;
 
-       public ViewHolder(View view) {
-           super(view);
+        public ViewHolder(View view) {
+            super(view);
+            myView = view;
+            textViewUsername = view.findViewById(R.id.textViewUsername);
+            textViewInfo = view.findViewById(R.id.textViewInfo);
+            circleImageUser = view.findViewById(R.id.circleImageUser);
 
-           textViewUsername = view.findViewById(R.id.textViewUsername);
-           textViewInfo = view.findViewById(R.id.textViewInfo);
-           circleImageUser = view.findViewById(R.id.circleImageUser);
-       }
+        }
 
-   }
+    }
 }
