@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/circleImageUser"
         android:layout_below="@id/textViewUsername"
-        android:text="Online"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="12dp"
         android:maxLines="1"/>

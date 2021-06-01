@@ -33,7 +33,7 @@ public class ContactsAdapter extends FirestoreRecyclerAdapter<User, ContactsAdap
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull User user) {
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull final User user) {
 
         if (user.getId().equals(authProvider.getId())) {
             RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
@@ -61,13 +61,14 @@ public class ContactsAdapter extends FirestoreRecyclerAdapter<User, ContactsAdap
         holder.myView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToChatActivity();
+                goToChatActivity(user.getId());
             }
         });
     }
 
-    private void goToChatActivity() {
+    private void goToChatActivity(String id) {
         Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
