@@ -129,7 +129,7 @@
                     android:id="@+id/textViewInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¡Hey, estoy usando TokiChat!"
+                    android:hint="¡Hey, estoy usando TokiChat!"
                     android:textColor="@color/black"
                     android:textSize="15dp"/>
 
