@@ -36,7 +36,8 @@
                 android:src="@drawable/ic_camera_white"
                 app:backgroundTint="@color/colorPrimary"
                 android:layout_gravity="bottom|center"
-                android:layout_marginLeft="60dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="60dp"/>
 
         </FrameLayout>
 

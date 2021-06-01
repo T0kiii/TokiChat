@@ -32,4 +32,10 @@ public class UsersProvider {
         return mCollection.document(user.getId()).update(map);
     }
 
+    public Task<Void> updateImage(String id, String url) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("image", url);
+        return mCollection.document(id).update(map);
+    }
+
 }
