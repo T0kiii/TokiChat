@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.tokiapps.tokichat.models.User;
 
 import java.util.HashMap;
@@ -19,6 +20,10 @@ public class UsersProvider {
 
     public DocumentReference getUserInfo(String id) {
         return mCollection.document(id);
+    }
+
+    public Query getAllUsersByName() {
+        return mCollection.orderBy("username");
     }
 
     public Task<Void> create(User user) {
