@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,20 +17,33 @@ import com.tokiapps.tokichat.R;
 import com.tokiapps.tokichat.activities.ChatActivity;
 import com.tokiapps.tokichat.models.User;
 import com.squareup.picasso.Picasso;
+import com.tokiapps.tokichat.providers.AuthProvider;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ContactsAdapter extends FirestoreRecyclerAdapter<User, ContactsAdapter.ViewHolder> {
 
     Context context;
+    AuthProvider authProvider;
 
     public ContactsAdapter(FirestoreRecyclerOptions options, Context context) {
         super(options);
         this.context = context;
+        authProvider = new AuthProvider();
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull User user) {
+
+        if (user.getId().equals(authProvider.getId())) {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            param.height = 0;
+            param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            param.topMargin = 0;
+            param.bottomMargin = 0;
+            holder.itemView.setVisibility(View.VISIBLE);
+        }
+
         holder.textViewInfo.setText(user.getInfo());
         holder.textViewUsername.setText(user.getUsername());
         if (user.getImage() != null) {
