@@ -84,7 +84,7 @@ public class BottomSheetSelectImage extends BottomSheetDialogFragment {
                         @Override
                         public void onComplete(@NonNull Task<Void> task2) {
                             if (task2.isSuccessful()) {
-                                setImageDefault();
+                                // setImageDefault();
                                 Toast.makeText(getContext(), "La imagen se elimino correctamente", Toast.LENGTH_SHORT).show();
                             }
                             else {

@@ -6,16 +6,18 @@ public class User {
     private String username;
     private String phone;
     private String image;
+    private String info;
 
     public User() {
 
     }
 
-    public User(String id, String username, String phone, String image) {
+    public User(String id, String username, String phone, String image, String info) {
         this.id = id;
         this.username = username;
         this.phone = phone;
         this.image = image;
+        this.info = info;
     }
 
     public String getId() {
@@ -48,5 +50,13 @@ public class User {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

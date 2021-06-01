@@ -86,6 +86,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/imageViewEditUsername"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/ic_edit_gray" />
@@ -122,10 +123,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Info" />
+                    android:text="Estado" />
 
                 <TextView
-                    android:id="@+id/textViewStatus"
+                    android:id="@+id/textViewInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="¡Hey, estoy usando TokiChat!"
@@ -136,6 +137,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/imageViewEditInfo"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/ic_edit_gray" />

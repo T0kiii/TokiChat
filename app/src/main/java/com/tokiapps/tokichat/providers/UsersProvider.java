@@ -38,4 +38,16 @@ public class UsersProvider {
         return mCollection.document(id).update(map);
     }
 
+    public Task<Void> updateUsername(String id, String username) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        return mCollection.document(id).update(map);
+    }
+
+    public Task<Void> updateInfo(String id, String info) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("info", info);
+        return mCollection.document(id).update(map);
+    }
+
 }

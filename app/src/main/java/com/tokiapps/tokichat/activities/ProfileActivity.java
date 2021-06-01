@@ -1,6 +1,7 @@
 package com.tokiapps.tokichat.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +23,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.tokiapps.tokichat.R;
+import com.tokiapps.tokichat.fragments.BottomSheetInfo;
 import com.tokiapps.tokichat.fragments.BottomSheetSelectImage;
+import com.tokiapps.tokichat.fragments.BottomSheetUsername;
 import com.tokiapps.tokichat.models.User;
 import com.tokiapps.tokichat.providers.AuthProvider;
 import com.tokiapps.tokichat.providers.ImageProvider;
@@ -42,6 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     FloatingActionButton mFabSelectImage;
     BottomSheetSelectImage mBottomSheetSelectImage;
+    BottomSheetUsername mBottomSheetUsername;
+    BottomSheetInfo mBottomSheetInfo;
 
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
@@ -49,13 +58,20 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView mTextViewUsername;
     TextView mTextViewPhone;
+    TextView mTextViewInfo;
+
+
     CircleImageView mCircleImageProfile;
+    ImageView mImageViewEditUsername;
+    ImageView mImageViewEditInfo;
 
     User mUser;
 
     Options mOptions;
     ArrayList<String> mReturnValues = new ArrayList<>();
     File mImageFile;
+
+    ListenerRegistration mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +84,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         mTextViewUsername = findViewById(R.id.textViewUsername);
         mTextViewPhone = findViewById(R.id.textViewPhone);
+        mTextViewInfo = findViewById(R.id.textViewInfo);
         mCircleImageProfile = findViewById(R.id.circleImageProfile);
+        mImageViewEditUsername = findViewById(R.id.imageViewEditUsername);
+        mImageViewEditInfo = findViewById(R.id.imageViewEditInfo);
 
         mOptions = Options.init()
                 .setRequestCode(100)                                           //Request code for activity results
@@ -89,21 +108,52 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        mImageViewEditUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetUsername();
+            }
+        });
+
+        mImageViewEditInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBottomSheetEditInfo();
+            }
+        });
+
         getUserInfo();
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mListener != null) {
+            mListener.remove();
+        }
+    }
+
     private void getUserInfo() {
-        mUsersProvider.getUserInfo(mAuthProvider.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mListener = mUsersProvider.getUserInfo(mAuthProvider.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    mUser = documentSnapshot.toObject(User.class);
-                    mTextViewUsername.setText(mUser.getUsername());
-                    mTextViewPhone.setText(mUser.getPhone());
-                    if (mUser.getImage() != null) {
-                        if (!mUser.getImage().equals("")) {
-                            Picasso.get().load(mUser.getImage()).into(mCircleImageProfile);
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot != null) {
+                    if (documentSnapshot.exists()) {
+                        mUser = documentSnapshot.toObject(User.class);
+                        mTextViewUsername.setText(mUser.getUsername());
+                        mTextViewPhone.setText(mUser.getPhone());
+                        mTextViewInfo.setText(mUser.getInfo());
+                        if (mUser.getImage() != null) {
+                            if (!mUser.getImage().equals("")) {
+                                Picasso.get().load(mUser.getImage()).into(mCircleImageProfile);
+                            }
+                            else {
+                                setImageDefault();
+                            }
+                        }
+                        else {
+                            setImageDefault();
                         }
                     }
                 }
@@ -121,11 +171,29 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void openBottomSheetEditInfo() {
+        if (mUser != null) {
+            mBottomSheetInfo = BottomSheetInfo.newInstance(mUser.getInfo());
+            mBottomSheetInfo.show(getSupportFragmentManager(), mBottomSheetInfo.getTag());
+        }
+        else {
+            Toast.makeText(this, "La informacion no se pudo cargar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openBottomSheetUsername() {
+        if (mUser != null) {
+            mBottomSheetUsername = BottomSheetUsername.newInstance(mUser.getUsername());
+            mBottomSheetUsername.show(getSupportFragmentManager(), mBottomSheetUsername.getTag());
+        }
+        else {
+            Toast.makeText(this, "La informacion no se pudo cargar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void setImageDefault() {
         mCircleImageProfile.setImageResource(R.drawable.ic_person_white);
     }
-
-
 
     public void startPix() {
         Pix.start(ProfileActivity.this, mOptions);
