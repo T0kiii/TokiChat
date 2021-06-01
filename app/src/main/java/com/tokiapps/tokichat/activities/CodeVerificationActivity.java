@@ -113,7 +113,7 @@ public class CodeVerificationActivity extends AppCompatActivity {
                     mUsersProvider.getUserInfo(mAuthProvider.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (!documentSnapshot.exists()) {
+                            if (!documentSnapshot.exists()) { // validación si documento existe en base de datos
                                 mUsersProvider.create(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

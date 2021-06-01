@@ -21,6 +21,7 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageProfile"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:src="@drawable/ic_person_white"
@@ -65,6 +66,7 @@
                     android:text="Nombre" />
 
                 <TextView
+                    android:id="@+id/textViewUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre de usuario"
@@ -122,6 +124,7 @@
                     android:text="Info" />
 
                 <TextView
+                    android:id="@+id/textViewStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="¡Hey, estoy usando TokiChat!"
@@ -171,9 +174,10 @@
                     android:text="Telefono" />
 
                 <TextView
+                    android:id="@+id/textViewPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+1 600000000"
+                    android:text="+34 600000000"
                     android:textColor="@color/black"
                     android:textSize="15dp"/>
 
