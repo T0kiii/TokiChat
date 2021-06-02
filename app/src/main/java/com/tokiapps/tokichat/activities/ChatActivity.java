@@ -4,14 +4,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tokiapps.tokichat.R;
+import com.tokiapps.tokichat.adapters.MessagesAdapter;
 import com.tokiapps.tokichat.models.Chat;
 import com.tokiapps.tokichat.models.Message;
 import com.tokiapps.tokichat.providers.ChatsProvider;
@@ -50,6 +55,10 @@ public class ChatActivity extends AppCompatActivity {
     EditText mEditTextMessage;
     ImageView mImageViewSend;
 
+    MessagesAdapter mAdapter;
+    RecyclerView mRecyclerViewMessages;
+    LinearLayoutManager mLinearLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,10 @@ public class ChatActivity extends AppCompatActivity {
 
         mEditTextMessage = findViewById(R.id.editTextMessage);
         mImageViewSend = findViewById(R.id.imageViewSend);
+        mRecyclerViewMessages = findViewById(R.id.recyclerViewMessages);
+
+        mLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        mRecyclerViewMessages.setLayoutManager(mLinearLayoutManager);
 
         showChatToolbar(R.layout.chat_toolbar);
         getUserInfo();
@@ -79,6 +92,20 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAdapter != null) {
+            mAdapter.startListening();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     private void createMessage() {
@@ -97,7 +124,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     mEditTextMessage.setText("");
-                    Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -117,11 +144,24 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     else {
                         mExtraidChat = queryDocumentSnapshots.getDocuments().get(0).getId();
-                        Toast.makeText(ChatActivity.this, "El chat entre dos usuarios ya existe", Toast.LENGTH_SHORT).show();
+                        getMessagesByChat();
+                        //Toast.makeText(ChatActivity.this, "El chat entre dos usuarios ya existe", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
+    }
+
+    private void getMessagesByChat() {
+        Query query = mMessagesProvider.getMessagesByChat(mExtraidChat);
+
+        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(query, Message.class)
+                .build();
+
+        mAdapter = new MessagesAdapter(options, ChatActivity.this);
+        mRecyclerViewMessages.setAdapter(mAdapter);
+        mAdapter.startListening();
     }
 
     private void createChat() {
@@ -140,7 +180,7 @@ public class ChatActivity extends AppCompatActivity {
         mChatsProvider.create(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(ChatActivity.this, "El chat se creo correctamente", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ChatActivity.this, "El chat se creo correctamente", Toast.LENGTH_SHORT).show();
             }
         });
 
