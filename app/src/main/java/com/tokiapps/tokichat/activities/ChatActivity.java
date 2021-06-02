@@ -13,15 +13,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tokiapps.tokichat.R;
 import com.tokiapps.tokichat.models.Chat;
-import com.tokiapps.tokichat.models.ChatsProvider;
+import com.tokiapps.tokichat.models.Message;
+import com.tokiapps.tokichat.providers.ChatsProvider;
 import com.tokiapps.tokichat.models.User;
 import com.tokiapps.tokichat.providers.AuthProvider;
+import com.tokiapps.tokichat.providers.MessagesProvider;
 import com.tokiapps.tokichat.providers.UsersProvider;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,27 +37,74 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatActivity extends AppCompatActivity {
 
     String mExtraIdUser;
+    String mExtraidChat;
+
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
     ChatsProvider mChatsProvider;
+    MessagesProvider mMessagesProvider;
 
     ImageView mImageViewBack;
     TextView mTextViewUsername;
     CircleImageView mCircleImageUser;
+    EditText mEditTextMessage;
+    ImageView mImageViewSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        mExtraIdUser = getIntent().getStringExtra("id");
+        mExtraIdUser = getIntent().getStringExtra("idUser");
+        mExtraidChat = getIntent().getStringExtra("idChat");
+
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
         mChatsProvider = new ChatsProvider();
+        mMessagesProvider = new MessagesProvider();
+
+        mEditTextMessage = findViewById(R.id.editTextMessage);
+        mImageViewSend = findViewById(R.id.imageViewSend);
 
         showChatToolbar(R.layout.chat_toolbar);
         getUserInfo();
+
         checkIfExistChat();
+
+
+        mImageViewSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMessage();
+            }
+        });
+
+    }
+
+    private void createMessage() {
+
+        String textMessage = mEditTextMessage.getText().toString();
+        if (!textMessage.equals("")) {
+            Message message = new Message();
+            message.setIdChat(mExtraidChat);
+            message.setIdSender(mAuthProvider.getId());
+            message.setIdReceiver(mExtraIdUser);
+            message.setMessage(textMessage);
+            message.setStatus("ENVIADO");
+            message.setTimestamp(new Date().getTime());
+
+            mMessagesProvider.create(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    mEditTextMessage.setText("");
+                    Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(this, "Ingresa el mensaje", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void checkIfExistChat() {
@@ -66,6 +116,7 @@ public class ChatActivity extends AppCompatActivity {
                         createChat();
                     }
                     else {
+                        mExtraidChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                         Toast.makeText(ChatActivity.this, "El chat entre dos usuarios ya existe", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -83,6 +134,8 @@ public class ChatActivity extends AppCompatActivity {
         ids.add(mExtraIdUser);
 
         chat.setIds(ids);
+
+        mExtraidChat = chat.getId();
 
         mChatsProvider.create(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
