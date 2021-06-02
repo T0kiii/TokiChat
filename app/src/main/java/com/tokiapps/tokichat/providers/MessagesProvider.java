@@ -7,6 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.tokiapps.tokichat.models.Message;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MessagesProvider {
 
     CollectionReference mCollection;
@@ -23,6 +26,16 @@ public class MessagesProvider {
 
     public Query getMessagesByChat(String idChat) {
         return mCollection.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.ASCENDING);
+    }
+
+    public Task<Void> updateStatus(String idMessage, String status) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        return mCollection.document(idMessage).update(map);
+    }
+
+    public Query getMessagesNotRead(String idChat) {
+        return mCollection.whereEqualTo("idChat", idChat).whereEqualTo("status", "ENVIADO");
     }
 
 }

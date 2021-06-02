@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Nuevo mensaje.."
             android:textSize="15dp"
+            android:layout_marginRight="15dp"
             android:textColor="@color/black"/>
 
         <LinearLayout

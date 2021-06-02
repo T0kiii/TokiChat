@@ -77,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         mRecyclerViewMessages = findViewById(R.id.recyclerViewMessages);
 
         mLinearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        mLinearLayoutManager.setStackFromEnd(true);
         mRecyclerViewMessages.setLayoutManager(mLinearLayoutManager);
 
         showChatToolbar(R.layout.chat_toolbar);
@@ -124,6 +125,10 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     mEditTextMessage.setText("");
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
+
                     //Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -145,7 +150,23 @@ public class ChatActivity extends AppCompatActivity {
                     else {
                         mExtraidChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                         getMessagesByChat();
+                        updateStatus();
                         //Toast.makeText(ChatActivity.this, "El chat entre dos usuarios ya existe", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateStatus() {
+        mMessagesProvider.getMessagesNotRead(mExtraidChat).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for (DocumentSnapshot document: queryDocumentSnapshots.getDocuments()) {
+                    Message message = document.toObject(Message.class);
+                    if (!message.getIdSender().equals(mAuthProvider.getId())) {
+                        mMessagesProvider.updateStatus(message.getId(), "VISTO");
                     }
                 }
             }
@@ -162,6 +183,20 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new MessagesAdapter(options, ChatActivity.this);
         mRecyclerViewMessages.setAdapter(mAdapter);
         mAdapter.startListening();
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                updateStatus();
+                int numberMessage = mAdapter.getItemCount();
+                int lastMessagePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                if (lastMessagePosition == -1 || (positionStart >= (numberMessage - 1) && lastMessagePosition == (positionStart -1))) {
+                    mRecyclerViewMessages.scrollToPosition(positionStart);
+                }
+            }
+        });
     }
 
     private void createChat() {
@@ -180,6 +215,7 @@ public class ChatActivity extends AppCompatActivity {
         mChatsProvider.create(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                getMessagesByChat();
                 //Toast.makeText(ChatActivity.this, "El chat se creo correctamente", Toast.LENGTH_SHORT).show();
             }
         });
