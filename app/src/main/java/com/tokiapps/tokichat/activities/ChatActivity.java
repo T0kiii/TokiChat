@@ -128,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
                     if (mAdapter != null) {
                         mAdapter.notifyDataSetChanged();
                     }
-
+                    mChatsProvider.updateNumberMessages(mExtraidChat);
                     //Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -203,6 +203,7 @@ public class ChatActivity extends AppCompatActivity {
         Chat chat = new Chat();
         chat.setId(mAuthProvider.getId() + mExtraIdUser);
         chat.setTimestamp(new Date().getTime());
+        chat.setNumberMessages(0);
 
         ArrayList<String> ids = new ArrayList<>();
         ids.add(mAuthProvider.getId());

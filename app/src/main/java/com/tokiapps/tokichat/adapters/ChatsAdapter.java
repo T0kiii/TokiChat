@@ -18,13 +18,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import com.tokiapps.tokichat.R;
 import com.tokiapps.tokichat.activities.ChatActivity;
 import com.tokiapps.tokichat.models.Chat;
+import com.tokiapps.tokichat.models.Message;
 import com.tokiapps.tokichat.models.User;
 import com.tokiapps.tokichat.providers.AuthProvider;
+import com.tokiapps.tokichat.providers.MessagesProvider;
 import com.tokiapps.tokichat.providers.UsersProvider;
+import com.tokiapps.tokichat.utils.RelativeTime;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,14 +37,17 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
     Context context;
     AuthProvider authProvider;
     UsersProvider usersProvider;
+    MessagesProvider messagesProvider;
     User user;
     ListenerRegistration listener;
+    ListenerRegistration listenerLastMessage;
 
     public ChatsAdapter(FirestoreRecyclerOptions options, Context context) {
         super(options);
         this.context = context;
         authProvider = new AuthProvider();
         usersProvider = new UsersProvider();
+        messagesProvider = new MessagesProvider();
         user = new User();
     }
 
@@ -56,9 +63,41 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
             }
         }
 
+        getLastMessage(holder, chat.getId());
+
         getUserInfo(holder, idUser);
 
         clickMyView(holder, chat.getId(), idUser);
+    }
+
+    private void getLastMessage(final ViewHolder holder, String idChat) {
+
+        listenerLastMessage = messagesProvider.getLastMessage(idChat).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException error) {
+                if (querySnapshot != null) {
+                    int size = querySnapshot.size();
+                    if (size > 0) {
+                        Message message = querySnapshot.getDocuments().get(0).toObject(Message.class);
+                        holder.textViewLastMessage.setText(message.getMessage());
+                        holder.textViewTimestamp.setText(RelativeTime.timeFormatAMPM(message.getTimestamp(), context));
+
+                        if (message.getIdSender().equals(authProvider.getId())) {
+                            holder.imageViewCheck.setVisibility(View.VISIBLE);
+                            if (message.getStatus().equals("ENVIADO")) {
+                                holder.imageViewCheck.setImageResource(R.drawable.icon_double_check_gray);
+                            }
+                            else if (message.getStatus().equals("VISTO")) {
+                                holder.imageViewCheck.setImageResource(R.drawable.icon_double_check_blue);
+                            }
+                        }
+                        else {
+                            holder.imageViewCheck.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void clickMyView(ViewHolder holder, final String idChat, final String idUser) {
@@ -101,6 +140,10 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
     public ListenerRegistration getListener() {
         return listener;
+    }
+
+    public ListenerRegistration getListenerLastMessage() {
+        return listenerLastMessage;
     }
 
     private void goToChatActivity(String idChat, String idUser) {
