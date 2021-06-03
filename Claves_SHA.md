@@ -133,6 +133,28 @@ BUILD SUCCESSFUL in 2s
 
 ``76:6B:67:DD:20:8D:01:E5:29:69:97:51:82:1E:1A:DE:34:C6:F3:BC``
 
+Texto entero:
+
+```powershell
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\Alberto\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 6F:50:CF:9D:38:04:75:66:3E:19:F9:F3:68:D5:49:54
+SHA1: 76:6B:67:DD:20:8D:01:E5:29:69:97:51:82:1E:1A:DE:34:C6:F3:BC
+SHA-256: 9A:AB:34:9A:B2:21:2A:10:46:64:2F:79:72:4A:75:55:D2:5B:9C:EB:C0:51:62:1C:8F:47:0E:B1:61:7A:46:CD
+Valid until: mi�rcoles 7 de diciembre de 2050
+----------
+Variant: releaseUnitTest
+Config: none
+----------
+
+BUILD SUCCESSFUL in 907ms
+1 actionable task: 1 executed
+11:35:02: Task execution finished 'signingReport'.
+```
+
 
 
 
