@@ -2,6 +2,10 @@
 
 
 
+https://stackoverflow.com/questions/67405791/gradle-tasks-are-not-showing-in-the-gradle-tool-window-in-android-studio-4-2
+
+
+
 ### Comandos generar clave
 
 Ejemplo:
@@ -118,4 +122,22 @@ BUILD SUCCESSFUL in 2s
 1 actionable task: 1 executed
 9:51:26 p. m.: Task execution finished 'signingReport'.
 ```
+
+
+
+----
+
+
+
+``03/06/2021``  Nueva SHA1:
+
+``76:6B:67:DD:20:8D:01:E5:29:69:97:51:82:1E:1A:DE:34:C6:F3:BC``
+
+
+
+
+
+---
+
+
 
