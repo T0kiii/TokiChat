@@ -6,10 +6,14 @@
     tools:context=".fragments.ChildrenFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="CHILDREN FRAGMENT"
+        android:src="@drawable/under_construction"
         android:gravity="center"/>
 
 </FrameLayout>
