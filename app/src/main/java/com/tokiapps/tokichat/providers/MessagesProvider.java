@@ -38,6 +38,10 @@ public class MessagesProvider {
         return mCollection.whereEqualTo("idChat", idChat).whereEqualTo("status", "ENVIADO");
     }
 
+    public Query getReceiverMessagesNotRead(String idChat, String idReceiver) {
+        return mCollection.whereEqualTo("idChat", idChat).whereEqualTo("status", "ENVIADO").whereEqualTo("idReceiver", idReceiver);
+    }
+
     public Query getLastMessage(String idChat) {
         return mCollection.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.DESCENDING).limit(1);
     }
