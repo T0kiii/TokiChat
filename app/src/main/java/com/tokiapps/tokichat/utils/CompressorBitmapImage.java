@@ -9,6 +9,9 @@ import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
 
+/*
+ * Clase para reducir el peso de las imágenes. Utilizada antes de subir la imagen de usuario a Firestore
+ * */
 
 public class CompressorBitmapImage {
 

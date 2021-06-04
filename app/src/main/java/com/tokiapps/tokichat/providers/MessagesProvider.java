@@ -38,10 +38,12 @@ public class MessagesProvider {
         return mCollection.whereEqualTo("idChat", idChat).whereEqualTo("status", "ENVIADO");
     }
 
+    // Consulta para recuperar mensajes con status  consultando al índice en Firestore
     public Query getReceiverMessagesNotRead(String idChat, String idReceiver) {
         return mCollection.whereEqualTo("idChat", idChat).whereEqualTo("status", "ENVIADO").whereEqualTo("idReceiver", idReceiver);
     }
 
+    // Recuperar consulta con el último mensaje consultando al índice en Firestore
     public Query getLastMessage(String idChat) {
         return mCollection.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.DESCENDING).limit(1);
     }

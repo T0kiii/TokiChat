@@ -151,7 +151,6 @@ public class ChatActivity extends AppCompatActivity {
                         mExtraidChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                         getMessagesByChat();
                         updateStatus();
-                        //Toast.makeText(ChatActivity.this, "El chat entre dos usuarios ya existe", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -189,9 +188,10 @@ public class ChatActivity extends AppCompatActivity {
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
                 updateStatus();
-                int numberMessage = mAdapter.getItemCount();
-                int lastMessagePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                int numberMessage = mAdapter.getItemCount(); // num mensajes hasta el momento
+                int lastMessagePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition(); // posición del último mensaje
 
+                // si la posición del último mensaje cambia, que el recycler baje hasta el último mensaje
                 if (lastMessagePosition == -1 || (positionStart >= (numberMessage - 1) && lastMessagePosition == (positionStart -1))) {
                     mRecyclerViewMessages.scrollToPosition(positionStart);
                 }
@@ -217,7 +217,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 getMessagesByChat();
-                //Toast.makeText(ChatActivity.this, "El chat se creo correctamente", Toast.LENGTH_SHORT).show();
             }
         });
 

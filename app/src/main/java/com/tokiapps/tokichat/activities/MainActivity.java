@@ -13,6 +13,12 @@ import com.hbb20.CountryCodePicker;
 import com.tokiapps.tokichat.R;
 import com.tokiapps.tokichat.providers.AuthProvider;
 
+
+/*
+* Primera actividad de la app si no hay sesión iniciada.
+* Recibe el número de teléfono del usuario, le adjunta el código del país seleccionado y manda la info a la actividad CodeVerificationActivity
+* */
+
 public class MainActivity extends AppCompatActivity {
 
     Button mButtonSendCode;
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         String phone = mEditTextPhone.getText().toString();
 
         if (phone.equals("")) {
-            Toast.makeText(this, "debe insertar el telefono", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debe insertar un telefono", Toast.LENGTH_SHORT).show();
         }
         else {
             goToCodeVerificationActivity(code + phone);

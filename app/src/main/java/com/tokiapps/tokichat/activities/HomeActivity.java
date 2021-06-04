@@ -18,7 +18,6 @@ import com.tokiapps.tokichat.adapters.ViewPagerAdapter;
 import com.tokiapps.tokichat.fragments.ChatsFragment;
 import com.tokiapps.tokichat.fragments.ChildrenFragment;
 import com.tokiapps.tokichat.fragments.ContactsFragment;
-import com.tokiapps.tokichat.fragments.StatusFragment;
 import com.tokiapps.tokichat.providers.AuthProvider;
 
 public class HomeActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener{
@@ -31,7 +30,6 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
     ChatsFragment mChatsFragment;
     ChildrenFragment mChildrenFragment;
     ContactsFragment mContactsFragments;
-    StatusFragment mStatusFragment;
 
     //int mTabSelected = 1;
 
@@ -50,7 +48,6 @@ public class HomeActivity extends AppCompatActivity implements MaterialSearchBar
         mChatsFragment = new ChatsFragment();
         mChildrenFragment = new ChildrenFragment();
         mContactsFragments = new ContactsFragment();
-        mStatusFragment = new StatusFragment();
         adapter.addFragment(mChatsFragment, "CHATS");
         //adapter.addFragment(mStatusFragment, "ESTADOS");
         adapter.addFragment(mContactsFragments, "CONTACTOS");
