@@ -25,11 +25,6 @@ import com.tokiapps.tokichat.models.User;
 import com.tokiapps.tokichat.providers.AuthProvider;
 import com.tokiapps.tokichat.providers.UsersProvider;
 
-/*
-* Actividad que recibe el número de teléfono con código del país del usuario mediante el MainActivity.
-* Realíza el registro inicial del usuario mediante su teléfono. Verifica el teléfono mandando un código por SMS que se recoge automáticamente por la app
-* */
-
 public class CodeVerificationActivity extends AppCompatActivity {
 
     Button mButtonCodeVerification;
@@ -64,7 +59,7 @@ public class CodeVerificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String code = mEditTextCode.getText().toString();
-                if (!code.equals("") && code.length() >= 6) { // validación de código SMS escrito
+                if (!code.equals("") && code.length() >= 6) {
                     signIn(code);
                 }
                 else {
@@ -81,10 +76,9 @@ public class CodeVerificationActivity extends AppCompatActivity {
             mProgressBar.setVisibility(View.GONE);
             mTextViewSMS.setVisibility(View.GONE);
 
-            // Recuperar código SMS
             String code = phoneAuthCredential.getSmsCode();
 
-            if (code != null) { // validación deL código SMS escrito automáticamente por la app
+            if (code != null) {
                 mEditTextCode.setText(code);
                 signIn(code);
             }

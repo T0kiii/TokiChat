@@ -10,10 +10,6 @@ import com.tokiapps.tokichat.models.User;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-* Clase gestora de usuarios. Encargada de creación, eliminación y gestión de datos de usuarios
-* */
-
 public class UsersProvider {
 
     private CollectionReference mCollection;

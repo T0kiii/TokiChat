@@ -94,7 +94,6 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
     }
 
-    // Recuperar el último mensaje. Si el status del mensaje en la base de datos es ENVIADO se marca con un double check gris. Si es VISTO se marca con un double check azul
     private void getLastMessage(final ViewHolder holder, String idChat) {
         listenerLastMessage = messagesProvider.getLastMessage(idChat).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

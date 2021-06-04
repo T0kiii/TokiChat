@@ -19,10 +19,6 @@ import com.tokiapps.tokichat.providers.AuthProvider;
 import com.tokiapps.tokichat.providers.UsersProvider;
 
 
-/*
-* Fragmento contenido en el HomeActivity. Contiene un recycler con todos los chats recuperados de la base de datos mediante el ChatsProvider
-* */
-
 public class ChatsFragment extends Fragment {
 
     View mView;
@@ -60,27 +56,23 @@ public class ChatsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // recuperar chats de la colección chats de la base datos
         Query query = mChatsProvider.getUserChats(mAuthProvider.getId());
 
         FirestoreRecyclerOptions<Chat> options = new FirestoreRecyclerOptions.Builder<Chat>()
                 .setQuery(query, Chat.class)
                 .build();
 
-        // agregar respuesta de la consulta al recycler
         mAdapter = new ChatsAdapter(options, getContext());
         mRecyclerViewChats.setAdapter(mAdapter);
         mAdapter.startListening();
     }
 
-    // Cuando la actividad no esté activa, que el adaptador pare de seguir escuchando de la base de datos. Si se deja escuchando da errores y afecta al rendimiento
     @Override
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
     }
 
-    // Cuando muera la actividad, eliminar la escucha a la base de datos
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -7,10 +7,6 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
- * Clase para trabajar con timestamps. Utilizada en getLastMessage en ChatsAdapter
- * */
-
 public class RelativeTime extends Application {
 
     private static final int SECOND_MILLIS = 1000;
